@@ -1,0 +1,49 @@
+---
+- hosts: builder
+  become: true
+
+  tasks:
+    - name: Install system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: ['maven', 'git']
+
+    - name: Install add-apt-repostory
+      apt:
+        name: software-properties-common
+        state: latest
+
+    - name: Add Oracle Java Repository
+      apt_repository:
+        repo: ppa:webupd8team/java
+
+    - name: Accept Java 8 License
+      debconf:
+        name: oracle-java8-installer
+        question: shared/accepted-oracle-license-v1-1
+        value: true
+        vtype: select
+
+    - name: Install Oracle Java 8
+      package:
+        name:
+         - openjdk-8-jdk
+         - ca-certificates
+        update_cache: yes
+
+    - name: Clone bitbucket repo
+      git:
+        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+        dest: /home/ubuntu/java-app
+        version: master
+        accept_hostkey: yes
+
+    - name: Running mvn build
+      command: "chdir=/home/ubuntu/java-app mvn package"
+
+    - name: Fetch the file from the builder to master
+      run_once: yes
+      fetch: src=/home/ubuntu/java-app/target/hello-1.0.war dest=buffer/ flat=yes
+
+- hosts: prod
+    - name: Copy the file from master to prod
+      copy: src=buffer/hello-1.0.war dest=/home/ubuntu
