@@ -1,7 +1,5 @@
 ---
 # tasks file for prod_packet
-  become: true
-
   tasks:
   - name: Install OpenJDK
     apt:
