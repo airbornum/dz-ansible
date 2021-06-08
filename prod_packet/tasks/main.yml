@@ -1,6 +1,5 @@
 ---
 # tasks file for prod_packet
-  tasks:
   - name: Install OpenJDK
     apt:
       name: openjdk-11-jre-headless
