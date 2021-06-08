@@ -6,23 +6,23 @@
   roles:
    - builder_packet
 
- - name: prod server configure
-   hosts: prod
-   become: yes
+- name: prod server configure
+  hosts: prod
+  become: yes
 
-   roles:
-    - prod_packet
+  roles:
+   - prod_packet
 
 - name: build build_artifact
-        hosts: builder
-        become: yes
+  hosts: builder
+  become: yes
 
-        roles:
-         - builder_artifact
+  roles:
+   - builder_artifact
 
 - name: provisioning
   hosts: prod
   become: yes
 
- roles:
-  - prod_provisioning
+  roles:
+   - prod_provisioning
