@@ -1,11 +1,11 @@
 ---
 # tasks file for build_artifact
 - name: Clone bitbucket repo
-    git:
-      repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-      dest: /home/ubuntu/java-app
-      version: master
-      accept_hostkey: yes
+  git:
+    repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+    dest: /home/ubuntu/java-app
+    version: master
+    accept_hostkey: yes
 
 - name: Running mvn build
   command: "chdir=/home/ubuntu/java-app mvn package"
