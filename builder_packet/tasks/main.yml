@@ -1,5 +1,5 @@
 ---
-- hosts: builder
+# tasks file for builder_packet
   become: true
 
   tasks:
@@ -29,21 +29,3 @@
          - openjdk-8-jdk
          - ca-certificates
         update_cache: yes
-
-    - name: Clone bitbucket repo
-      git:
-        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-        dest: /home/ubuntu/java-app
-        version: master
-        accept_hostkey: yes
-
-    - name: Running mvn build
-      command: "chdir=/home/ubuntu/java-app mvn package"
-
-    - name: Fetch the file from the builder to master
-      run_once: yes
-      fetch: src=/home/ubuntu/java-app/target/hello-1.0.war dest=buffer/ flat=yes
-
-- hosts: prod
-    - name: Copy the file from master to prod
-      copy: src=buffer/hello-1.0.war dest=/home/ubuntu

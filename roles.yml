@@ -1,0 +1,28 @@
+---
+- name: build server configure
+  hosts: builder
+  become: yes
+
+  roles:
+   - builder_packet
+
+ - name: prod server configure
+   hosts: prod
+   become: yes
+
+   roles:
+    - prod_packet
+
+- name: build build_artifact
+        hosts: builder
+        become: yes
+
+        roles:
+         - builder_artifact
+
+- name: provisioning
+  hosts: prod
+  become: yes
+
+ roles:
+  - prod_provisioning

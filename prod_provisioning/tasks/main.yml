@@ -1,0 +1,8 @@
+---
+# tasks file for prod_provisioning
+
+  - name: Copy the file from master to prod
+    copy: src=buffer/hello-1.0.war dest=/usr/local/apache-tomcat-9.0.46/webapps
+
+  - name: start tomcat services
+    shell: nohup /usr/local/apache-tomcat-9.0.46/bin/startup.sh
