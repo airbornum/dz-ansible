@@ -15,5 +15,5 @@
   fetch: src=/home/ubuntu/java-app/target/hello-1.0.war dest=buffer/ flat=yes
 
 - hosts: prod
-- name: Copy the file from master to prod
-  copy: src=buffer/hello-1.0.war dest=/home/ubuntu
+  - name: Copy the file from master to prod
+    copy: src=buffer/hello-1.0.war dest=/home/ubuntu
