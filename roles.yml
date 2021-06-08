@@ -4,7 +4,7 @@
   become: yes
 
   roles:
-   - builder_packet
+   - build_packet
 
 - name: prod server configure
   hosts: prod
