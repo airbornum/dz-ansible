@@ -1,29 +1,28 @@
 ---
 # tasks file for builder_packet
-  tasks:
-    - name: Install system packages
-      apt: name={{ item }} state=latest update_cache=yes
-      loop: ['maven', 'git']
+- name: Install system packages
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: ['maven', 'git']
 
-    - name: Install add-apt-repostory
-      apt:
-        name: software-properties-common
-        state: latest
+- name: Install add-apt-repostory
+  apt:
+    name: software-properties-common
+    state: latest
 
-    - name: Add Oracle Java Repository
-      apt_repository:
-        repo: ppa:webupd8team/java
+- name: Add Oracle Java Repository
+  apt_repository:
+    repo: ppa:webupd8team/java
 
-    - name: Accept Java 8 License
-      debconf:
-        name: oracle-java8-installer
-        question: shared/accepted-oracle-license-v1-1
-        value: true
-        vtype: select
+- name: Accept Java 8 License
+  debconf:
+    name: oracle-java8-installer
+    question: shared/accepted-oracle-license-v1-1
+    value: true
+    vtype: select
 
-    - name: Install Oracle Java 8
-      package:
-        name:
-         - openjdk-8-jdk
-         - ca-certificates
-        update_cache: yes
+- name: Install Oracle Java 8
+  package:
+    name:
+     - openjdk-8-jdk
+     - ca-certificates
+    update_cache: yes
