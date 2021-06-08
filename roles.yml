@@ -4,7 +4,7 @@
   become: yes
 
   roles:
-   - build_packet
+   - builder_packet
 
 - name: prod server configure
   hosts: prod
@@ -18,7 +18,7 @@
   become: yes
 
   roles:
-   - builder_artifact
+   - build_artifact
 
 - name: provisioning
   hosts: prod
