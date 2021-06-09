@@ -1,0 +1,54 @@
+---
+- name: Install docker
+  hosts: all
+  become: yes
+
+  tasks:
+- name: Ensure docker package is present
+  apt:
+    name: docker.io
+    state: present
+
+
+- name: Create java-app image
+  hosts: builder
+
+  tasks:
+- name: Create java-app dir
+  file:
+    path: /tmp/java-app
+    state: directory
+
+- name: Copy the Dockerfile
+  copy:
+    src: ./Dockerfile
+    dest: /tmp/java-app
+
+- name: Create java-app docker image
+  docker_image:
+    name: airbornum/java-app
+    path: /tmp/java-app
+    force: yes
+
+- name: Authenticate to DockerHub repo
+  docker_login:
+    username: "{{ u }}"
+    email: "{{ e }}"
+    password: "{{ p }}"
+
+- name: Push image to repo
+  docker_image:
+    name: airbornum/java-app
+    push: yes
+
+
+- name: Run a java-app
+  hosts: prod
+
+  tasks:
+- name: Launch java-app docker container
+  docker_container:
+    name: java-app
+    image: airbornum/java-app
+    ports:
+      - "80:8080"
